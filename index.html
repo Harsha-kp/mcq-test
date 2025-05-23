@@ -4,18 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MCQ Quiz</title>
-
   <style>
+    /* Basic page styling */
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      background-color: #f2f2f2;
       display: flex;
       justify-content: center;
       padding: 50px;
       margin: 0;
     }
+    /* Container for all content */
     .container {
-      background: white;
+      background-color: #fff;
       padding: 20px 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px #ccc;
@@ -23,13 +24,42 @@
       box-sizing: border-box;
       text-align: center;
     }
-    h1 {
+    /* Headings */
+    h1, h2 {
       margin-bottom: 20px;
     }
+    /* Input for user's name */
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    /* General button styling */
+    button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4285f4;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #357ae8;
+    }
+    /* Question text styling */
     #question {
       font-size: 18px;
       margin-bottom: 15px;
     }
+    /* Answer option buttons */
     #options button {
       display: block;
       width: 100%;
@@ -45,34 +75,24 @@
     #options button:hover:not(:disabled) {
       background-color: #ddd;
     }
+    /* Correct answer styling */
     #options button.correct {
       background-color: lightgreen !important;
       border-color: green !important;
-      color: #000;
+      color: black;
     }
+    /* Wrong answer styling */
     #options button.wrong {
       background-color: tomato !important;
       border-color: darkred !important;
-      color: #000;
+      color: black;
     }
+    /* Next button styling */
     #next-btn {
       margin-top: 20px;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: none;
-      background-color: #4285f4;
-      color: white;
-      cursor: pointer;
-      display: none; /* hidden initially */
-      width: 100%;
+      display: none; /* Hidden initially */
     }
-    #next-btn:hover {
-      background-color: #357ae8;
-    }
-    #result-box {
-      display: none;
-    }
+    /* Result text styling */
     #score {
       font-size: 20px;
       font-weight: bold;
@@ -82,139 +102,204 @@
 </head>
 <body>
 
-  <div class="container">
+  <!-- Front page container -->
+  <div class="container" id="front-page">
     <h1>MCQ Quiz</h1>
+    <input
+      type="text"
+      id="name-input"
+      placeholder="Enter your Name"
+      autocomplete="off"
+    />
+    <button id="start-btn" onclick="startQuiz()">Start Test</button>
+  </div>
 
+  <!-- Quiz container, hidden initially -->
+  <div class="container" id="quiz-container" style="display: none;">
+    <h2 id="greeting"></h2>
+
+    <!-- Quiz question box -->
     <div id="quiz-box">
       <p id="question"></p>
       <div id="options"></div>
-      <button id="next-btn" onclick="nextQuestion()">Next</button>
+      <button id="next-btn" onclick="goToNextQuestion()">Next</button>
     </div>
 
-    <div id="result-box">
+    <!-- Result box, shown after quiz ends -->
+    <div id="result-box" style="display: none;">
       <h2>Quiz Completed!</h2>
       <p id="score"></p>
     </div>
   </div>
 
   <script>
-    // Quiz questions array
-    const questions = [
+    // Array of quiz questions
+    const quizQuestions = [
       {
-        question: "What is the capital of France?",
-        options: ["Paris", "London", "Berlin", "Madrid"],
-        answer: "Paris"
+        questionText: "What is the capital of France?",
+        choices: ["Paris", "London", "Berlin", "Madrid"],
+        correctAnswer: "Paris"
       },
       {
-        question: "Which is the smallest prime number?",
-        options: ["0", "1", "2", "3"],
-        answer: "2"
+        questionText: "Which is the smallest prime number?",
+        choices: ["0", "1", "2", "3"],
+        correctAnswer: "2"
       },
       {
-        question: "What is the result of 3 * 4?",
-        options: ["7", "12", "14", "24"],
-        answer: "12"
+        questionText: "What is the result of 3 * 4?",
+        choices: ["7", "12", "14", "24"],
+        correctAnswer: "12"
       },
       {
-        question: "Which planet is known as the Red Planet?",
-        options: ["Earth", "Mars", "Jupiter", "Saturn"],
-        answer: "Mars"
+        questionText: "Which planet is known as the Red Planet?",
+        choices: ["Earth", "Mars", "Jupiter", "Saturn"],
+        correctAnswer: "Mars"
       },
       {
-        question: "What is the square root of 25?",
-        options: ["3", "5", "7", "9"],
-        answer: "5"
+        questionText: "What is the square root of 25?",
+        choices: ["3", "5", "7", "9"],
+        correctAnswer: "5"
       },
       {
-        question: "Who wrote 'Hamlet'?",
-        options: ["Charles Dickens", "William Shakespeare", "J.K. Rowling", "Leo Tolstoy"],
-        answer: "William Shakespeare"
+        questionText: "Who wrote 'Hamlet'?",
+        choices: ["Charles Dickens", "William Shakespeare", "J.K. Rowling", "Leo Tolstoy"],
+        correctAnswer: "William Shakespeare"
       },
       {
-        question: "Which gas do plants absorb from the air?",
-        options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"],
-        answer: "Carbon Dioxide"
+        questionText: "Which gas do plants absorb from the air?",
+        choices: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"],
+        correctAnswer: "Carbon Dioxide"
       },
       {
-        question: "What is H2O?",
-        options: ["Oxygen", "Hydrogen", "Water", "Salt"],
-        answer: "Water"
+        questionText: "What is H2O?",
+        choices: ["Oxygen", "Hydrogen", "Water", "Salt"],
+        correctAnswer: "Water"
       },
       {
-        question: "Which continent is India in?",
-        options: ["Europe", "Asia", "Africa", "Australia"],
-        answer: "Asia"
+        questionText: "Which continent is India in?",
+        choices: ["Europe", "Asia", "Africa", "Australia"],
+        correctAnswer: "Asia"
       },
       {
-        question: "What color do you get when you mix red and white?",
-        options: ["Pink", "Purple", "Blue", "Brown"],
-        answer: "Pink"
+        questionText: "What color do you get when you mix red and white?",
+        choices: ["Pink", "Purple", "Blue", "Brown"],
+        correctAnswer: "Pink"
       }
     ];
 
-    let currentQuestion = 0;
-    let score = 0;
+    // Variables to track current question, score, and user name
+    let currentQuestionIndex = 0;
+    let totalScore = 0;
+    let userName = "";
 
-    // Load current question and options
-    function loadQuestion() {
-      // Hide next button initially
+    /**
+     * Called when user clicks Start Test button.
+     * Validates name input, hides front page,
+     * shows quiz, and loads first question.
+     */
+    function startQuiz() {
+      const nameInput = document.getElementById("name-input").value.trim();
+
+      if (nameInput === "") {
+        alert("Please enter your name before starting the quiz.");
+        return;
+      }
+
+      userName = nameInput;
+
+      // Hide the front page and show the quiz container
+      document.getElementById("front-page").style.display = "none";
+      document.getElementById("quiz-container").style.display = "block";
+
+      // Greet user by name
+      document.getElementById("greeting").innerText = `Welcome, ${userName}!`;
+
+      // Reset quiz variables
+      currentQuestionIndex = 0;
+      totalScore = 0;
+
+      // Make sure quiz and result boxes are set properly
+      document.getElementById("quiz-box").style.display = "block";
+      document.getElementById("result-box").style.display = "none";
+
+      // Load the first question
+      displayQuestion();
+    }
+
+    /**
+     * Loads current question and answer choices on the page.
+     * Hides the Next button until user selects an answer.
+     */
+    function displayQuestion() {
+      // Hide the Next button until an option is clicked
       document.getElementById("next-btn").style.display = "none";
 
+      // Get current question object
+      const question = quizQuestions[currentQuestionIndex];
+
+      // Display question text
+      document.getElementById("question").textContent = question.questionText;
+
       // Clear previous options
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
+      const optionsContainer = document.getElementById("options");
+      optionsContainer.innerHTML = "";
 
-      // Load question text
-      const currentQ = questions[currentQuestion];
-      document.getElementById("question").innerText = currentQ.question;
-
-      // Create buttons for each option
-      currentQ.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = option;
-        btn.onclick = () => checkAnswer(btn, currentQ.answer);
-        optionsDiv.appendChild(btn);
+      // Create buttons for each choice
+      question.choices.forEach(choice => {
+        const choiceBtn = document.createElement("button");
+        choiceBtn.textContent = choice;
+        choiceBtn.className = "option";
+        choiceBtn.onclick = () => handleAnswerSelection(choiceBtn, question.correctAnswer);
+        optionsContainer.appendChild(choiceBtn);
       });
     }
 
-    // Check answer and mark correct/incorrect
-    function checkAnswer(selectedBtn, correctAnswer) {
-      // Disable all option buttons after selection
-      const allOptions = document.querySelectorAll("#options button");
-      allOptions.forEach(btn => btn.disabled = true);
+    /**
+     * Handles what happens when a user selects an answer:
+     * disables all options, highlights correct and wrong answers,
+     * updates score, and shows Next button.
+     */
+    function handleAnswerSelection(selectedButton, correctAnswer) {
+      // Disable all option buttons so user can't change answer
+      const optionButtons = document.querySelectorAll("#options button");
+      optionButtons.forEach(button => (button.disabled = true));
 
-      if (selectedBtn.innerText === correctAnswer) {
-        selectedBtn.classList.add("correct");
-        score++;
+      // Mark selected button as correct or wrong
+      if (selectedButton.textContent === correctAnswer) {
+        selectedButton.classList.add("correct");
+        totalScore++;
       } else {
-        selectedBtn.classList.add("wrong");
-        // Highlight the correct answer
-        allOptions.forEach(btn => {
-          if (btn.innerText === correctAnswer) btn.classList.add("correct");
+        selectedButton.classList.add("wrong");
+        // Highlight the correct answer button
+        optionButtons.forEach(button => {
+          if (button.textContent === correctAnswer) {
+            button.classList.add("correct");
+          }
         });
       }
 
-      // Show the Next button to move forward
+      // Show Next button so user can proceed
       document.getElementById("next-btn").style.display = "block";
     }
 
-    // Move to next question or show results
-    function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        loadQuestion();
+    /**
+     * Moves to the next question, or if quiz finished,
+     * hides quiz and shows results with score.
+     */
+    function goToNextQuestion() {
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < quizQuestions.length) {
+        displayQuestion();
       } else {
-        // Hide quiz box and show results
+        // Quiz finished: show results
         document.getElementById("quiz-box").style.display = "none";
         document.getElementById("result-box").style.display = "block";
-        document.getElementById("score").innerText = `You scored ${score} out of ${questions.length}`;
+
+        document.getElementById("score").textContent =
+          `${userName}, you scored ${totalScore} out of ${quizQuestions.length}!`;
       }
     }
-
-    // Start quiz by loading the first question when page loads
-    window.onload = loadQuestion;
   </script>
-
 </body>
 </html>
