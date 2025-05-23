@@ -1,30 +1,48 @@
-/* General page styling */
+/* Body styling: center content and set background */
 body {
-  font-family: Arial, sans-serif;     /* Clean, readable font */
-  background-color: #f4f4f4;          /* Light grey background */
-  display: flex;                      /* Center the content horizontally */
-  justify-content: center;
-  padding: 50px;                      /* Add space around the content */
+  font-family: Arial, sans-serif;      /* Clean, readable font */
+  background-color: #f2f2f2;           /* Light grey background */
+  display: flex;                       /* Use flexbox to center container */
+  justify-content: center;             /* Center horizontally */
+  padding: 50px;                      /* Space around the container */
 }
 
 /* Main container for the quiz */
 .container {
-  background-color: #ffffff;          /* White background for contrast */
-  padding: 20px;                      /* Inner spacing */
-  border-radius: 10px;                /* Rounded corners */
-  box-shadow: 0 0 10px #ccc;          /* Soft outer shadow for depth */
-  width: 300px;                       /* Fixed width */
+  background-color: white;             /* White background */
+  padding: 20px 30px;                  /* Top-bottom and left-right padding */
+  border-radius: 10px;                 /* Rounded corners */
+  box-shadow: 0 0 10px #ccc;           /* Soft shadow for depth */
+  width: 350px;                       /* Fixed width */
 }
 
-/* Buttons for each answer option */
-.option-btn {
-  width: 100%;                        /* Full width buttons */
-  margin: 10px 0;                     /* Vertical spacing between buttons */
-  padding: 10px;                      /* Inner spacing for clickable area */
-  cursor: pointer;                    /* Cursor changes to pointer on hover */
+/* Style all buttons uniformly */
+button {
+  padding: 10px;                      /* Padding inside the button */
+  margin: 10px 0;                    /* Vertical spacing between buttons */
+  width: 100%;                      /* Full width buttons */
+  cursor: pointer;                   /* Pointer cursor on hover */
+  background-color: #eee;             /* Light grey background */
+  border: 1px solid #ccc;             /* Subtle border */
+  border-radius: 5px;                 /* Slightly rounded corners */
 }
 
-/* Styling for the "Next" button */
-#next-btn {
-  margin-top: 20px;                   /* Space above the button */
+/* Hover effect for buttons */
+button:hover {
+  background-color: #ddd;             /* Darker grey on hover */
+}
+
+/* Margin for option buttons */
+.option {
+  margin-top: 10px;                   /* Space above each option */
+}
+
+/* Style for correct answer button */
+.correct {
+  background-color: lightgreen !important; /* Green background overrides other styles */
+}
+
+/* Style for wrong answer button */
+.wrong {
+  background-color: tomato !important;     /* Red background overrides other styles */
 }
