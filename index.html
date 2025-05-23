@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MCQ Quiz App</title>
+  
+  <!-- Link to external CSS for styling -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Main heading of the quiz -->
+    <h1>MCQ Quiz</h1>
+
+    <!-- Quiz container -->
+    <div id="quiz">
+      <!-- Placeholder for the question -->
+      <p id="question"></p>
+
+      <!-- List of answer options -->
+      <ul>
+        <!-- Each option is a button with a click handler -->
+        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
+        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
+        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
+        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
+      </ul>
+    </div>
+
+    <!-- Button to load the next question -->
+    <button id="next-btn" onclick="nextQuestion()">Next</button>
+
+    <!-- Score display -->
+    <p id="score"></p>
+  </div>
+
+  <!-- Link to external JavaScript for quiz functionality -->
+  <script src="script.js"></script>
+</body>
+</html>
