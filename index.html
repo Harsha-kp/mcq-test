@@ -3,39 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MCQ Quiz App</title>
-  
+  <title>MCQ Quiz</title>
+
   <!-- Link to external CSS for styling -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <!-- Main heading of the quiz -->
+    <!-- Quiz heading -->
     <h1>MCQ Quiz</h1>
 
-    <!-- Quiz container -->
-    <div id="quiz">
-      <!-- Placeholder for the question -->
+    <!-- Quiz content box -->
+    <div id="quiz-box">
+      <!-- Question text will be injected here -->
       <p id="question"></p>
 
-      <!-- List of answer options -->
-      <ul>
-        <!-- Each option is a button with a click handler -->
-        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
-        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
-        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
-        <li><button class="option-btn" onclick="checkAnswer(this)"></button></li>
-      </ul>
+      <!-- Answer options will be dynamically created here -->
+      <div id="options"></div>
+
+      <!-- Button to proceed to the next question -->
+      <button id="next-btn" onclick="nextQuestion()">Next</button>
     </div>
 
-    <!-- Button to load the next question -->
-    <button id="next-btn" onclick="nextQuestion()">Next</button>
-
-    <!-- Score display -->
-    <p id="score"></p>
+    <!-- Result section (hidden initially) -->
+    <div id="result-box" style="display: none;">
+      <h2>Quiz Completed!</h2>
+      <!-- Final score will be displayed here -->
+      <p id="score"></p>
+    </div>
   </div>
 
-  <!-- Link to external JavaScript for quiz functionality -->
+  <!-- Link to external JavaScript for quiz logic -->
   <script src="script.js"></script>
 </body>
 </html>
