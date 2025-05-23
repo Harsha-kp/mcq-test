@@ -2,38 +2,219 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MCQ Quiz</title>
 
-  <!-- Link to external CSS for styling -->
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      padding: 50px;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      width: 350px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #question {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    #options button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    #options button:hover:not(:disabled) {
+      background-color: #ddd;
+    }
+    #options button.correct {
+      background-color: lightgreen !important;
+      border-color: green !important;
+      color: #000;
+    }
+    #options button.wrong {
+      background-color: tomato !important;
+      border-color: darkred !important;
+      color: #000;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: #4285f4;
+      color: white;
+      cursor: pointer;
+      display: none; /* hidden initially */
+      width: 100%;
+    }
+    #next-btn:hover {
+      background-color: #357ae8;
+    }
+    #result-box {
+      display: none;
+    }
+    #score {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
+
   <div class="container">
-    <!-- Quiz heading -->
     <h1>MCQ Quiz</h1>
 
-    <!-- Quiz content box -->
     <div id="quiz-box">
-      <!-- Question text will be injected here -->
       <p id="question"></p>
-
-      <!-- Answer options will be dynamically created here -->
       <div id="options"></div>
-
-      <!-- Button to proceed to the next question -->
       <button id="next-btn" onclick="nextQuestion()">Next</button>
     </div>
 
-    <!-- Result section (hidden initially) -->
-    <div id="result-box" style="display: none;">
+    <div id="result-box">
       <h2>Quiz Completed!</h2>
-      <!-- Final score will be displayed here -->
       <p id="score"></p>
     </div>
   </div>
 
-  <!-- Link to external JavaScript for quiz logic -->
-  <script src="script.js"></script>
+  <script>
+    // Quiz questions array
+    const questions = [
+      {
+        question: "What is the capital of France?",
+        options: ["Paris", "London", "Berlin", "Madrid"],
+        answer: "Paris"
+      },
+      {
+        question: "Which is the smallest prime number?",
+        options: ["0", "1", "2", "3"],
+        answer: "2"
+      },
+      {
+        question: "What is the result of 3 * 4?",
+        options: ["7", "12", "14", "24"],
+        answer: "12"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Saturn"],
+        answer: "Mars"
+      },
+      {
+        question: "What is the square root of 25?",
+        options: ["3", "5", "7", "9"],
+        answer: "5"
+      },
+      {
+        question: "Who wrote 'Hamlet'?",
+        options: ["Charles Dickens", "William Shakespeare", "J.K. Rowling", "Leo Tolstoy"],
+        answer: "William Shakespeare"
+      },
+      {
+        question: "Which gas do plants absorb from the air?",
+        options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"],
+        answer: "Carbon Dioxide"
+      },
+      {
+        question: "What is H2O?",
+        options: ["Oxygen", "Hydrogen", "Water", "Salt"],
+        answer: "Water"
+      },
+      {
+        question: "Which continent is India in?",
+        options: ["Europe", "Asia", "Africa", "Australia"],
+        answer: "Asia"
+      },
+      {
+        question: "What color do you get when you mix red and white?",
+        options: ["Pink", "Purple", "Blue", "Brown"],
+        answer: "Pink"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    // Load current question and options
+    function loadQuestion() {
+      // Hide next button initially
+      document.getElementById("next-btn").style.display = "none";
+
+      // Clear previous options
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      // Load question text
+      const currentQ = questions[currentQuestion];
+      document.getElementById("question").innerText = currentQ.question;
+
+      // Create buttons for each option
+      currentQ.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(btn, currentQ.answer);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    // Check answer and mark correct/incorrect
+    function checkAnswer(selectedBtn, correctAnswer) {
+      // Disable all option buttons after selection
+      const allOptions = document.querySelectorAll("#options button");
+      allOptions.forEach(btn => btn.disabled = true);
+
+      if (selectedBtn.innerText === correctAnswer) {
+        selectedBtn.classList.add("correct");
+        score++;
+      } else {
+        selectedBtn.classList.add("wrong");
+        // Highlight the correct answer
+        allOptions.forEach(btn => {
+          if (btn.innerText === correctAnswer) btn.classList.add("correct");
+        });
+      }
+
+      // Show the Next button to move forward
+      document.getElementById("next-btn").style.display = "block";
+    }
+
+    // Move to next question or show results
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        // Hide quiz box and show results
+        document.getElementById("quiz-box").style.display = "none";
+        document.getElementById("result-box").style.display = "block";
+        document.getElementById("score").innerText = `You scored ${score} out of ${questions.length}`;
+      }
+    }
+
+    // Start quiz by loading the first question when page loads
+    window.onload = loadQuestion;
+  </script>
+
 </body>
 </html>
