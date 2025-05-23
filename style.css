@@ -1,0 +1,30 @@
+/* General page styling */
+body {
+  font-family: Arial, sans-serif;     /* Clean, readable font */
+  background-color: #f4f4f4;          /* Light grey background */
+  display: flex;                      /* Center the content horizontally */
+  justify-content: center;
+  padding: 50px;                      /* Add space around the content */
+}
+
+/* Main container for the quiz */
+.container {
+  background-color: #ffffff;          /* White background for contrast */
+  padding: 20px;                      /* Inner spacing */
+  border-radius: 10px;                /* Rounded corners */
+  box-shadow: 0 0 10px #ccc;          /* Soft outer shadow for depth */
+  width: 300px;                       /* Fixed width */
+}
+
+/* Buttons for each answer option */
+.option-btn {
+  width: 100%;                        /* Full width buttons */
+  margin: 10px 0;                     /* Vertical spacing between buttons */
+  padding: 10px;                      /* Inner spacing for clickable area */
+  cursor: pointer;                    /* Cursor changes to pointer on hover */
+}
+
+/* Styling for the "Next" button */
+#next-btn {
+  margin-top: 20px;                   /* Space above the button */
+}
